@@ -80,3 +80,4 @@ solucion=((mov padre) (mov padre) ...)
 ;    -1=baja al cero (7 8 9)
 ;    2=mueve a la derecha al cero (3 6 9)
 ;    -2=mueve a la no derehca al cero (1 4 7)
+;
