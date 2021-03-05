@@ -1,5 +1,3 @@
-
-#---- empieza esto
 (setq abierto '(edoInicial) cerrado '() edoFinal '((1 2 3)(4 0 5)(6 7 8)))
 (setq solucion '())
 (setq movsDisp '(-2 -1 1 2))
