@@ -81,3 +81,14 @@ solucion=((mov padre) (mov padre) ...)
 ;    2=mueve a la derecha al cero (3 6 9)
 ;    -2=mueve a la no derehca al cero (1 4 7)
 ;
+
+(setq pos '(0 0))
+(defun findIJ (pos edo)
+    (cond   
+        ((or (null pos) (null edo)))
+        ((listp (car edo)) (incf (car pos)) (if (miembro 0 (car edo))
+        (findIJ (cdr pos) (car edo))
+        (findIJ pos (cdr edo))))
+        ((eql 0 (car edo)) (incf (car pos)))
+        (t (incf (car pos)) (findIJ pos (cdr edo)))))
+
