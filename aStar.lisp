@@ -95,7 +95,7 @@ solucion=((mov padre) (mov padre) ...)
         ((eql 0 (car edo)) (incf (car pos)))
         (t (incf (car pos)) (findIJ pos (cdr edo)))))
 
-(defun swap (pos0 posD)
+(defun swap (edo pos0 posD &aux aux)
     (setq aux (nth (- (cadr posD) 1) (nth (- (car posD) 1) edo)))
     (incf (nth (- (cadr pos0) 1) (nth (- (car pos0) 1) edo)) aux)
     (decf (nth (- (cadr posD) 1) (nth (- (car posD) 1) edo)) aux))
