@@ -26,15 +26,13 @@
     )
 
 ;generar un nodo de la forma: nodo=(ID padre f(x) movimiento (estado))
-(defun generaNodo (nodo mov)
+(defun generaNodo (nodo mov &aux posA posD)
     ;arma que el nodo sea justo de la forma especifica y le mete todo lo que se necesita
-    (setq edo (cddddr nodo))
-    (setq posA (findij '(0 0) edo) posD (list (+ (car posA) (car mov)) (+ (cadr posA) (cadr mov))))
-    (write posA)
-    (write posD)
+    (setq edo (copy-tree (car (cddddr nodo))))
+    (let* ((d0 (copy-tree '(0 0)))(posA (findij d0 edo))(posD (list (+ (car posA) (car mov)) (+ (cadr posA) (cadr mov)))))
     (cond
-        ((and (>= 3 (car posD) 1) (>= 3 (cadr posD) 1)) (write 'valido) (swap edo posA posD))
-        (t nil))
+        ((and (>= 3 (car posD) 1) (>= 3 (cadr posD) 1))(swap edo posA posD))
+        (t nil)))
 )
 
 
@@ -103,7 +101,8 @@ solucion=((mov padre) (mov padre) ...)
         (t (incf (car pos)) (findIJ pos (cdr edo))))
         pos)
 
-(defun swap (edo pos0 posD &aux aux)
-    (setq aux (nth (- (cadr posD) 1) (nth (- (car posD) 1) edo)))
-    (incf (nth (- (cadr pos0) 1) (nth (- (car pos0) 1) edo)) aux)
-    (decf (nth (- (cadr posD) 1) (nth (- (car posD) 1) edo)) aux))
+(defun swap (var pos0 posD &aux aux)
+    (setq aux (nth (- (cadr posD) 1) (nth (- (car posD) 1) var)))
+    (incf (nth (- (cadr pos0) 1) (nth (- (car pos0) 1) var)) aux)
+    (decf (nth (- (cadr posD) 1) (nth (- (car posD) 1) var)) aux)
+    var)
