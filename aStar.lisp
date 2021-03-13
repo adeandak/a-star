@@ -26,8 +26,15 @@
     )
 
 ;generar un nodo de la forma: nodo=(ID padre f(x) movimiento (estado))
-(defun generaNodo (edo mov)
-    ;arma que el nodo sea justo dde la forma especifica y le mete todo lo que se necesita
+(defun generaNodo (nodo mov)
+    ;arma que el nodo sea justo de la forma especifica y le mete todo lo que se necesita
+    (setq edo (cddddr nodo))
+    (setq posA (findij '(0 0) edo) posD (list (+ (car posA) (car mov)) (+ (cadr posA) (cadr mov))))
+    (write posA)
+    (write posD)
+    (cond
+        ((and (>= 3 (car posD) 1) (>= 3 (cadr posD) 1)) (write 'valido) (swap edo posA posD))
+        (t nil))
 )
 
 
@@ -56,7 +63,7 @@
 
 nodo=(ID padre f(x) movimiento (estado))
 
-
+movs=((1 0) (-1 0) (0 1) (0 -1))
 
 solucion=((mov padre) (mov padre) ...)
 
@@ -93,7 +100,8 @@ solucion=((mov padre) (mov padre) ...)
             (findIJ (cdr pos) (car edo))
             (findIJ pos (cdr edo))))
         ((eql 0 (car edo)) (incf (car pos)))
-        (t (incf (car pos)) (findIJ pos (cdr edo)))))
+        (t (incf (car pos)) (findIJ pos (cdr edo))))
+        pos)
 
 (defun swap (edo pos0 posD &aux aux)
     (setq aux (nth (- (cadr posD) 1) (nth (- (car posD) 1) edo)))
