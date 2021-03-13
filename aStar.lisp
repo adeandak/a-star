@@ -26,12 +26,15 @@
     )
 
 ;generar un nodo de la forma: nodo=(ID padre f(x) movimiento (estado))
-(defun generaNodo (nodo mov &aux posA posD)
+
+
+;genera un edo a partir del edoP y mov
+(defun generaEdo (edoP mov &aux posA posD)
     ;arma que el nodo sea justo de la forma especifica y le mete todo lo que se necesita
-    (setq edo (copy-tree (car (cddddr nodo))))
+    (setq edo (copy-tree edoP))
     (let* ((d0 (copy-tree '(0 0)))(posA (findij d0 edo))(posD (list (+ (car posA) (car mov)) (+ (cadr posA) (cadr mov)))))
     (cond
-        ((and (>= 3 (car posD) 1) (>= 3 (cadr posD) 1))(swap edo posA posD))
+        ((and (>= 3 (car posD) 1) (>= 3 (cadr posD) 1)) (write 'valido) (swap edo posA posD))
         (t nil)))
 )
 
