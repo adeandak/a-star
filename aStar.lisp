@@ -79,12 +79,14 @@
         ((equal estado (cadr (cddddr nodo))))
         (t (previo estado (cdr lst)))))
 
+;determina si un obj pertenece a lst
 (defun miembro (obj lst)
     (cond
         ((null lst) nil)
         ((equal obj (car lst)) t)
         (t (miembro obj (cdr lst)))))
 
+;encuentra la posicion (y x) de 0 en edo
 (defun findIJ (pos edo)
     (cond   
         ((or (null pos) (null edo)))
@@ -95,6 +97,7 @@
         (t (incf (car pos)) (findIJ pos (cdr edo))))
         pos)
 
+;intercambia el cero de la pos0 con el numero en la posD
 (defun swap (var pos0 posD &aux aux)
     (setq aux (nth (- (cadr posD) 1) (nth (- (car posD) 1) var)))
     (incf (nth (- (cadr pos0) 1) (nth (- (car pos0) 1) var)) aux)
