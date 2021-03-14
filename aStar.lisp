@@ -21,7 +21,7 @@
         (t (generaHijos mejorNodo movs) 
             (push mejorNodo cerrado) 
             (sort abierto #'< :key #'third)
-            (if (> (length abierto) limEx) (setq abierto (reverse (nthcdr (- (length abierto) lim) (reverse abierto)))))
+            (if (> (length abierto) limEx) (setq abierto (reverse (nthcdr (- (length abierto) limEx) (reverse abierto)))))
             (astarPuzzle8))))
 
 ;dado un nodo se generan sus hijos y se agregan a abierto
@@ -105,9 +105,20 @@
     var)
 
 ;------- PARAMETROS --------
-(setq edoInicial '((0 6 2)(1 4 8)(7 3 5)))
+(terpri)
+(princ "Estado inicial : ")
+(setq edoInicial (read))
+(write edoInicial)
+
+(terpri)
+(princ "Estado final : ")
+(setq edoFinal (read))
+(write edoFinal)
+(terpri)
+(write edoInicial)
+
 (setq abierto (list (list 0 nil 0 0 -1 edoInicial)) cerrado '() solucion '() movs '((1 0)(-1 0)(0 1)(0 -1)) id 0 limIt 2000 limEx 100)
-(setq edoFinal '((1 2 3)(4 5 6)(7 8 0)) posFs (list (findPos 0 '(0 0) edoFinal) (findPos 1 '(0 0) edoFinal) (findPos 2 '(0 0) edoFinal) (findPos 3 '(0 0) edoFinal) (findPos 4 '(0 0) edoFinal) (findPos 5 '(0 0) edoFinal) (findPos 6 '(0 0) edoFinal) (findPos 7 '(0 0) edoFinal) (findPos 8 '(0 0) edoFinal)))
+(setq  posFs (list (findPos 0 '(0 0) edoFinal) (findPos 1 '(0 0) edoFinal) (findPos 2 '(0 0) edoFinal) (findPos 3 '(0 0) edoFinal) (findPos 4 '(0 0) edoFinal) (findPos 5 '(0 0) edoFinal) (findPos 6 '(0 0) edoFinal) (findPos 7 '(0 0) edoFinal) (findPos 8 '(0 0) edoFinal)))
 
 ;------- EXECUTE ORDER 66 -------
 (astarPuzzle8)
@@ -121,3 +132,5 @@
 ;(setq mejorNodo '(3 1 3 2 4 ((1 2 0)(3 4 5)(6 7 8))))
 ;(setq abierto (list nodo1))
 ;(setq movs '((1 0)(-1 0)(0 1)(0 -1)))
+;edoFinal '((1 2 3)(4 5 6)(7 8 0))
+
