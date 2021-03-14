@@ -4,19 +4,20 @@
 nodo=(ID padre f(x) g(x) movimiento (estado))
 
 movs=((1 0) (-1 0) (0 1) (0 -1))
-        4      3     2      1
+        1      2     3      4
 
-solucion=((mov padre) (mov padre) ...)
+solucion=((mov padre (edo)) (mov padre (edo)) ...)
+
+;------- PARAMETROS --------
+(setq edoInicial '((0 6 2)(1 4 8)(7 3 5)))
+(setq edoFinal '((1 2 3)(4 5 6)(7 8 0)) posFs (list (findPos 0 '(0 0) edoFinal) (findPos 1 '(0 0) edoFinal) (findPos 2 '(0 0) edoFinal) (findPos 3 '(0 0) edoFinal) (findPos 4 '(0 0) edoFinal) (findPos 5 '(0 0) edoFinal) (findPos 6 '(0 0) edoFinal) (findPos 7 '(0 0) edoFinal) (findPos 8 '(0 0) edoFinal)))
 
 ;------- INICIAN FUNCIONES --------
-(setq abierto (list '(0 nil 0 0 -1 ((2 8 3)(1 0 4)(7 6 5)))) cerrado '() edoFinal '((1 2 3)(8 0 4)(7 6 5)))
-(setq solucion '())
-(setq movs '((1 0)(-1 0)(0 1)(0 -1)))
-(setq id 0)
+(setq abierto (list (list 0 nil 0 0 -1 edoInicial)) cerrado '() solucion '() movs '((1 0)(-1 0)(0 1)(0 -1)) id 0 limIt 2000 limEx 100)
 (defun astarPuzzle8 ()
     (setf mejorNodo (pop abierto))
     (cond 
-        ((null mejorNodo) 
+        ((or (null mejorNodo) (> id limIt)) 
             (print 'NO_HAY_SOLUCION))
         ((equal (cadr (cddddr mejorNodo)) edoFinal) 
             (setq solucion (append solucion (list (list (car (cddddr mejorNodo)) (cadr mejorNodo) (cadr (cddddr mejorNodo)))))) (backtrack cerrado))
@@ -24,7 +25,8 @@ solucion=((mov padre) (mov padre) ...)
             (astarPuzzle8))
         (t (generaHijos mejorNodo movs) 
             (push mejorNodo cerrado) 
-            (sort abierto #'< :key #'third) 
+            (sort abierto #'< :key #'third)
+            (if (> (length abierto) limEx) (setq abierto (reverse (nthcdr (- (length abierto) lim) (reverse abierto)))))
             (astarPuzzle8))))
 
 ;dado un nodo se generan sus hijos y se agregan a abierto
