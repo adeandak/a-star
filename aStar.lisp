@@ -1,6 +1,6 @@
 (defun clear () (screen:clear-window (screen:make-window)))
 
-
+;------- ESTRUCTURAS DE DATOS ------
 nodo=(ID padre f(x) g(x) movimiento (estado))
 
 movs=((1 0) (-1 0) (0 1) (0 -1))
@@ -8,8 +8,8 @@ movs=((1 0) (-1 0) (0 1) (0 -1))
 
 solucion=((mov padre) (mov padre) ...)
 
-
-(setq abierto (list nodoInicial) cerrado '() edoFinal '((1 2 3)(4 0 5)(6 7 8)))
+;------- INICIAN FUNCIONES --------
+(setq abierto (list '(0 nil 0 0 -1 ((2 8 3)(1 0 4)(7 6 5)))) cerrado '() edoFinal '((1 2 3)(8 0 4)(7 6 5)))
 (setq solucion '())
 (setq movs '((1 0)(-1 0)(0 1)(0 -1)))
 (setq id 0)
@@ -18,12 +18,12 @@ solucion=((mov padre) (mov padre) ...)
     (cond 
         ((null mejorNodo) 
             (print 'NO_HAY_SOLUCION))
-        ((equal (car (cddddr mejorNodo)) edoFinal) 
-            (setq solucion (append solucion (list (list (cadddr mejorNodo) (cadr mejorNodo))))) (backtrack cerrado))
-        ((previo (car (cddddr mejorNodo) (cdr cerrado))) 
+        ((equal (cadr (cddddr mejorNodo)) edoFinal) 
+            (setq solucion (append solucion (list (list (car (cddddr mejorNodo)) (cadr mejorNodo) (cadr (cddddr mejorNodo)))))) (backtrack cerrado))
+        ((previo (cadr (cddddr mejorNodo)) (cdr cerrado)) 
             (astarPuzzle8))
         (t (generaHijos mejorNodo movs) 
-            (push cerrado mejorNodo) 
+            (push mejorNodo cerrado) 
             (sort abierto #'< :key #'third) 
             (astarPuzzle8))))
 
@@ -31,37 +31,47 @@ solucion=((mov padre) (mov padre) ...)
 (defun generaHijos (nodo movs)
     (cond 
         ((null movs))
-        (t 
-            (let* ((edoP (cadr (cddddr nodo)))(edoH (generaEdo edoP (car movs)))(nodoH)(g (+ (nth 3 nodo) 1)))
+        ((= (- 5 (length movs)) (if (evenp (nth 4 nodo)) (- (nth 4 nodo) 1) (+ (nth 4 nodo) 1))) (generaHijos nodo (cdr movs)))
+        (t (let* ((edoP (cadr (cddddr nodo)))(edoH (generaEdo edoP (car movs)))(nodoH)(g (+ (nth 3 nodo) 1)))
                 (cond
                     ((null edoH))
-                    (t (setf nodoH (list (+ id 1) (car nodo) (costoF g edoH) g (length movs) edoH)) (incf id) (push nodoH abierto))
-                )
-            )
-            (generaHijos nodo (cdr movs))
-        )
-    )
-)
+                    (t (setf nodoH (list (+ id 1) (car nodo) (+ g (costoH edoH 0 0)) g (- 5 (length movs)) edoH)) (incf id) (push nodoH abierto))))
+            (generaHijos nodo (cdr movs)))))
 
-;calcula el costo de un estado (distancia de hamming o Brooklyn)
-(defun costoF (g edo)
-    -1)
+;calcula el costo heuristico de un estado
+(defun costoH (edo num h)
+    (cond
+    ((>= num 9) h)
+    (t (let* (
+        (posNum (findPos num (copy-tree '(0 0)) edo))
+        (posF (nth num posFs))
+        (dist (+ (abs (- (car posNum) (car posF))) (abs (- (cadr posNum) (cadr posF))))))
+        (costoH edo (+ num 1) (+ h dist))))))
+
+;encuentra las coordenadas de num en edo
+(defun findPos (num pos edo)
+    (cond   
+        ((or (null pos) (null edo)))
+        ((listp (car edo)) (incf (car pos)) (if (miembro num (car edo))
+            (findPos num (cdr pos) (car edo))
+            (findPos num pos (cdr edo))))
+        ((eql num (car edo)) (incf (car pos)))
+        (t (incf (car pos)) (findPos num pos (cdr edo))))
+        pos)
 
 ;genera un estado dado el padre y el mov a realizar, regresa nil si no es valido el mov
 (defun generaEdo (edoP mov &aux posA posD)
-    ;arma que el nodo sea justo de la forma especifica y le mete todo lo que se necesita
     (setq edo (copy-tree edoP))
     (let* ((d0 (copy-tree '(0 0)))(posA (findij d0 edo))(posD (list (+ (car posA) (car mov)) (+ (cadr posA) (cadr mov)))))
     (cond
         ((and (>= 3 (car posD) 1) (>= 3 (cadr posD) 1))(swap edo posA posD))
-        (t nil)))
-)
+        (t nil))))
 
 ;recorre cerrado para obtener el conjunto de movimientos que llevan del estado inicial al estado final
 (defun backtrack (lst)
     (cond
-        ((null lst) (print solucion))
-        ((eql (caar lst) (cadar (reverse solucion))) (push (list (car (cddddr (car lst))) (cadr (car lst))) solucion) (backtrack (cdr lst)))
+        ((null lst) solucion)
+        ((eql (caar lst) (cadar solucion)) (push (list (car (cddddr (car lst))) (cadr (car lst)) (cadr (cddddr (car lst)))) solucion) (backtrack (cdr lst)))
         (t (backtrack (cdr lst)))))
 
 ;regresa T si el estado pertenece al lst de nodos
@@ -94,9 +104,9 @@ solucion=((mov padre) (mov padre) ...)
     (decf (nth (- (cadr posD) 1) (nth (- (car posD) 1) var)) aux)
     var)
 
-;algunas pruebas
+;------- PRUEBAS ------
 (setq edoP '((1 2 3)(4 0 6)(7 5 8)) edo (copy-tree edoP))
-(setq nodo1 '(0 nil 0 0 nil ((1 2 3)(4 0 5)(6 7 8))) nodo2 '(1 0 2 1 2 ((1 2 3)(0 4 5)(6 7 8))) nodo3 '(2 1 3 2 3 ((1 2 0)(3 4 5)(6 7 8))))
+(setq nodo1 '(0 nil 0 0 -1 ((1 2 3)(4 0 5)(6 7 8))) nodo2 '(1 0 2 1 2 ((1 2 3)(0 4 5)(6 7 8))) nodo3 '(2 1 3 2 3 ((1 2 0)(3 4 5)(6 7 8))))
 (setq cerrado (list nodo1 nodo2 nodo3))
 (setq solucion (list (list (car (cddddr mejorNodo)) (cadr mejorNodo))))
 (setq mejorNodo '(3 1 3 2 4 ((1 2 0)(3 4 5)(6 7 8))))
