@@ -1,17 +1,12 @@
-(defun clear () (screen:clear-window (screen:make-window)))
+;Proyecto A* Puzzle-8
 
 ;------- ESTRUCTURAS DE DATOS ------
-nodo=(ID padre f(x) g(x) movimiento (estado))
+;nodo=(ID padre f(x) g(x) movimiento (estado))
 
-movs=((1 0) (-1 0) (0 1) (0 -1))
-        1      2     3      4
+;movs=((1 0) (-1 0) (0 1) (0 -1))
+;        1      2     3      4
 
-solucion=((mov padre (edo)) (mov padre (edo)) ...)
-
-;------- PARAMETROS --------
-(setq edoInicial '((0 6 2)(1 4 8)(7 3 5)))
-(setq abierto (list (list 0 nil 0 0 -1 edoInicial)) cerrado '() solucion '() movs '((1 0)(-1 0)(0 1)(0 -1)) id 0 limIt 2000 limEx 100)
-(setq edoFinal '((1 2 3)(4 5 6)(7 8 0)) posFs (list (findPos 0 '(0 0) edoFinal) (findPos 1 '(0 0) edoFinal) (findPos 2 '(0 0) edoFinal) (findPos 3 '(0 0) edoFinal) (findPos 4 '(0 0) edoFinal) (findPos 5 '(0 0) edoFinal) (findPos 6 '(0 0) edoFinal) (findPos 7 '(0 0) edoFinal) (findPos 8 '(0 0) edoFinal)))
+;solucion=((mov padre (edo)) (mov padre (edo)) ...)
 
 ;------- INICIAN FUNCIONES --------
 (defun astarPuzzle8 ()
@@ -106,11 +101,19 @@ solucion=((mov padre (edo)) (mov padre (edo)) ...)
     (decf (nth (- (cadr posD) 1) (nth (- (car posD) 1) var)) aux)
     var)
 
+;------- PARAMETROS --------
+(setq edoInicial '((0 6 2)(1 4 8)(7 3 5)))
+(setq abierto (list (list 0 nil 0 0 -1 edoInicial)) cerrado '() solucion '() movs '((1 0)(-1 0)(0 1)(0 -1)) id 0 limIt 2000 limEx 100)
+(setq edoFinal '((1 2 3)(4 5 6)(7 8 0)) posFs (list (findPos 0 '(0 0) edoFinal) (findPos 1 '(0 0) edoFinal) (findPos 2 '(0 0) edoFinal) (findPos 3 '(0 0) edoFinal) (findPos 4 '(0 0) edoFinal) (findPos 5 '(0 0) edoFinal) (findPos 6 '(0 0) edoFinal) (findPos 7 '(0 0) edoFinal) (findPos 8 '(0 0) edoFinal)))
+
+;------- EXECUTE ORDER 66 -------
+(astarPuzzle8)
+
 ;------- PRUEBAS ------
-(setq edoP '((1 2 3)(4 0 6)(7 5 8)) edo (copy-tree edoP))
-(setq nodo1 '(0 nil 0 0 -1 ((1 2 3)(4 0 5)(6 7 8))) nodo2 '(1 0 2 1 2 ((1 2 3)(0 4 5)(6 7 8))) nodo3 '(2 1 3 2 3 ((1 2 0)(3 4 5)(6 7 8))))
-(setq cerrado (list nodo1 nodo2 nodo3))
-(setq solucion (list (list (car (cddddr mejorNodo)) (cadr mejorNodo))))
-(setq mejorNodo '(3 1 3 2 4 ((1 2 0)(3 4 5)(6 7 8))))
-(setq abierto (list nodo1))
-(setq movs '((1 0)(-1 0)(0 1)(0 -1)))
+;(setq edoP '((1 2 3)(4 0 6)(7 5 8)) edo (copy-tree edoP))
+;(setq nodo1 '(0 nil 0 0 -1 ((1 2 3)(4 0 5)(6 7 8))) nodo2 '(1 0 2 1 2 ((1 2 3)(0 4 5)(6 7 8))) nodo3 '(2 1 3 2 3 ((1 2 0)(3 4 5)(6 7 8))))
+;(setq cerrado (list nodo1 nodo2 nodo3))
+;(setq solucion (list (list (car (cddddr mejorNodo)) (cadr mejorNodo))))
+;(setq mejorNodo '(3 1 3 2 4 ((1 2 0)(3 4 5)(6 7 8))))
+;(setq abierto (list nodo1))
+;(setq movs '((1 0)(-1 0)(0 1)(0 -1)))
