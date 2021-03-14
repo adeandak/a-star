@@ -108,6 +108,7 @@
 
 ;------- EXECUTE ORDER 66 -------
 (astarPuzzle8)
+(print solucion) ;para que podamos ver en la terminal la solucion. 
 
 ;------- PRUEBAS ------
 ;(setq edoP '((1 2 3)(4 0 6)(7 5 8)) edo (copy-tree edoP))
