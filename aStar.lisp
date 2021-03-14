@@ -10,10 +10,10 @@ solucion=((mov padre (edo)) (mov padre (edo)) ...)
 
 ;------- PARAMETROS --------
 (setq edoInicial '((0 6 2)(1 4 8)(7 3 5)))
+(setq abierto (list (list 0 nil 0 0 -1 edoInicial)) cerrado '() solucion '() movs '((1 0)(-1 0)(0 1)(0 -1)) id 0 limIt 2000 limEx 100)
 (setq edoFinal '((1 2 3)(4 5 6)(7 8 0)) posFs (list (findPos 0 '(0 0) edoFinal) (findPos 1 '(0 0) edoFinal) (findPos 2 '(0 0) edoFinal) (findPos 3 '(0 0) edoFinal) (findPos 4 '(0 0) edoFinal) (findPos 5 '(0 0) edoFinal) (findPos 6 '(0 0) edoFinal) (findPos 7 '(0 0) edoFinal) (findPos 8 '(0 0) edoFinal)))
 
 ;------- INICIAN FUNCIONES --------
-(setq abierto (list (list 0 nil 0 0 -1 edoInicial)) cerrado '() solucion '() movs '((1 0)(-1 0)(0 1)(0 -1)) id 0 limIt 2000 limEx 100)
 (defun astarPuzzle8 ()
     (setf mejorNodo (pop abierto))
     (cond 
