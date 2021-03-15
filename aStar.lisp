@@ -104,25 +104,16 @@
     (decf (nth (- (cadr posD) 1) (nth (- (car posD) 1) var)) aux)
     var)
 
-;------- PARAMETROS --------
-(terpri)
-(princ "Estado inicial : ")
-(setq edoInicial (read))
-(write edoInicial)
-
-(terpri)
-(princ "Estado final : ")
-(setq edoFinal (read))
-(write edoFinal)
-(terpri)
-(write edoInicial)
-
-(setq abierto (list (list 0 nil 0 0 -1 edoInicial)) cerrado '() solucion '() movs '((1 0)(-1 0)(0 1)(0 -1)) id 0 limIt 2000 limEx 100)
-(setq  posFs (list (findPos 0 '(0 0) edoFinal) (findPos 1 '(0 0) edoFinal) (findPos 2 '(0 0) edoFinal) (findPos 3 '(0 0) edoFinal) (findPos 4 '(0 0) edoFinal) (findPos 5 '(0 0) edoFinal) (findPos 6 '(0 0) edoFinal) (findPos 7 '(0 0) edoFinal) (findPos 8 '(0 0) edoFinal)))
-
 ;------- EXECUTE ORDER 66 -------
-(astarPuzzle8)
-(print solucion) ;para que podamos ver en la terminal la solucion. 
+(defun executeSearch (edoIn edoFin)
+    (setq edoInicial edoIn edoFinal edoFin)
+    (setq abierto (list (list 0 nil 0 0 -1 edoInicial)) cerrado '() solucion '() movs '((1 0)(-1 0)(0 1)(0 -1)) id 0 limIt 2000 limEx 500)
+    (setq posFs (list (findPos 0 '(0 0) edoFinal) (findPos 1 '(0 0) edoFinal) (findPos 2 '(0 0) edoFinal) (findPos 3 '(0 0) edoFinal) (findPos 4 '(0 0) edoFinal) (findPos 5 '(0 0) edoFinal) (findPos 6 '(0 0) edoFinal) (findPos 7 '(0 0) edoFinal) (findPos 8 '(0 0) edoFinal)))
+    (astarPuzzle8)
+    solucion ;para que podamos ver en la terminal la solucion. 
+)
+
+;(executeSearch '((1 2 3)(4 0 6)(7 5 8)) '((1 2 3)(4 5 6)(7 8 0)))
 
 ;------- PRUEBAS ------
 ;(setq edoP '((1 2 3)(4 0 6)(7 5 8)) edo (copy-tree edoP))
@@ -133,4 +124,3 @@
 ;(setq abierto (list nodo1))
 ;(setq movs '((1 0)(-1 0)(0 1)(0 -1)))
 ;edoFinal '((1 2 3)(4 5 6)(7 8 0))
-
