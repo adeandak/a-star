@@ -7,7 +7,7 @@ Para ver el código en Common Lisp dar click *[aquí](https://github.com/adeanda
 ## Processing 
 Para correr el GUI:
 1. Clonar el repositorio
-2. Dentro de la carpeta *puzzle*
+2. Dentro de la carpeta *puzzle/application.windows64*
 3. Dar doble click al cmd. 
 
 ## Presentación 
